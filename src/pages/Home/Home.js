@@ -1,20 +1,25 @@
 import React from 'react'
-import { Button } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-<Button component={Link} to="/about" variant="contained" color="primary">
-  About Page
-</Button>
 const home = () => {
   return (
     <div>
-        <Button component={Link} to="/corporate" variant="contained" color="primary">
-            Corporate User
-        </Button>
+        <h1> Welcome To The Cloud Store </h1>
+        <h4> Select your role below: </h4>
+        <Stack direction="row" spacing={2}>
+            <Button component={Link} to="/corporate" variant="contained" color="primary">
+                Corporate
+            </Button>
 
-        <Button component={Link} to="/manager" variant="contained" color="primary">
-            Manager User
-        </Button>
+            <Button component={Link} to="/manager" variant="contained" color="secondary">
+                Manager
+            </Button>
+
+            <Button component={Link} to="/customer" variant="contained" color="primary" disabled>
+                Customer
+            </Button>
+        </Stack>
 
     </div>
   )
