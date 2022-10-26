@@ -8,11 +8,11 @@ const home = () => {
         <h1> Welcome To The Cloud Store </h1>
         <h4> Select your role below: </h4>
         <Stack direction="row" spacing={2}>
-            <Button component={Link} to="/corporate" variant="contained" color="primary">
+            <Button component={Link} to="/login" variant="contained" color="primary">
                 Corporate
             </Button>
 
-            <Button component={Link} to="/manager" variant="contained" color="secondary">
+            <Button component={Link} to="/login" variant="contained" color="secondary">
                 Manager
             </Button>
 

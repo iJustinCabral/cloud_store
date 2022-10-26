@@ -25,7 +25,7 @@ export default function Manager() {
       >
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
-            BigBoxStore
+            The Cloud Store
           </Typography>
         </Toolbar>
       </AppBar>
