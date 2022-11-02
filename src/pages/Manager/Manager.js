@@ -11,11 +11,40 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import SummarizeIcon from '@mui/icons-material/Summarize';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import TableRowsIcon from '@mui/icons-material/TableRows';
+import LogoutIcon from '@mui/icons-material/Logout';
+import RuleIcon from '@mui/icons-material/Rule';
 
 const drawerWidth = 240;
 
 export default function Manager() {
+
+  const itemsList = [
+    { 
+      text: 'Process Shipment',
+      icon:  <LocalShippingIcon />
+    }, 
+    {
+      text: 'Generate Inventory Report',
+      icon: <AssessmentIcon />
+    },
+    {
+      text: 'Generate Overstock Report',
+      icon: <SummarizeIcon />
+    },
+    {
+      text: 'Fill Shelves',
+      icon: <TableRowsIcon />
+    },
+    {
+      text: 'Missing Items',
+      icon: <RuleIcon />
+    },
+  ]
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />

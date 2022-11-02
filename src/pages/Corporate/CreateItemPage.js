@@ -23,13 +23,13 @@ import { useNavigate } from 'react-router-dom'
 
 const drawerWidth = 240;
 
-export default function Corporate(props) {
+const CreateItemPage = (props) => {
   const navigate = useNavigate()
   const itemsList = [
     { 
       text: 'Create Item',
       icon:  <AddCircleIcon />,
-      onClick: () => navigate('/corporate/create_item')
+      onClick: () => navigate('/corporate/create_item_page')
     }, 
     {
       text: 'List Stores',
@@ -122,11 +122,12 @@ export default function Corporate(props) {
       >
         <Toolbar />
         <Typography paragraph>
-        <h1> Welcome to the Corporate Dashboard</h1>
-        <h4> Please choose options located on the side</h4>
+        <h1> Create Item</h1>
         </Typography>
       </Box>
       
     </Box>
   );
 }
+
+export default CreateItemPage
