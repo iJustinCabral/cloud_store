@@ -92,11 +92,11 @@ const navigate = useNavigate()
         </List>
         <Divider />
         <List>
-          {['Logout'].map((text, index) => (
+        {['Logout'].map((text, icon, onClick) => (
             <ListItem key={text} disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={() => {navigate('/') }}>
                 <ListItemIcon>
-                  
+                  <LogoutIcon />
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
