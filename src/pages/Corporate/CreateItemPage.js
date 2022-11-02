@@ -70,7 +70,7 @@ const CreateItemPage = (props) => {
     { 
       text: 'Create Item',
       icon:  <AddCircleIcon />,
-      onClick: () => navigate('/corporate/create_item_page')
+      onClick: () => navigate('/corporate/create_item')
     }, 
     {
       text: 'List Stores',
