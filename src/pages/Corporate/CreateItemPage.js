@@ -20,11 +20,52 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom'
+import { Button, TextField } from '@mui/material';
+import { useState } from 'react';
 
 const drawerWidth = 240;
 
 const CreateItemPage = (props) => {
+
+  const [formValues, setFormValues] = useState({
+    sku: "",
+    name: "",
+    description: "",
+    price: "",
+    shelfMaxQty: ""
+  })
+
+  const handleChange = (e) => {
+    setFormValues((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+    }))
+  }
+
+  const handleClick = (e) => {
+    fetch("https://0kh4satg9k.execute-api.us-east-1.amazonaws.com/default/create_item_lamda", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formValues)
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response)
+      setFormValues(() => ({
+        sku: "",
+        name: "",
+        description: "",
+        price: "",
+        shelfMaxQty: ""
+      }))
+    })
+  }
+
   const navigate = useNavigate()
+
   const itemsList = [
     { 
       text: 'Create Item',
@@ -118,11 +159,20 @@ const CreateItemPage = (props) => {
       </Drawer>
       <Box
         component="main"
-        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+        display={"grid"}
+        flexDirection={'column'}
+        sx={{flexGrow: 1, bgcolor: 'background.default', p: 3 }}
       >
         <Toolbar />
         <Typography paragraph>
         <h1> Create Item</h1>
+        <TextField id="sku-input" name="sku" label="SKU" type="text" value={formValues.sku} onChange={handleChange}/>
+        <TextField id="name-input" name="name" label="Name" type="text" value={formValues.name} onChange={handleChange}/>
+        <TextField id="description-input" name="description" label="Description" type="text" value={formValues.description} onChange={handleChange}/>
+        <TextField id="price-input" name="price" label="Price" type="text" value={formValues.price} onChange={handleChange}/>
+        <TextField id="shelfMaxQty-input" name="shelfMaxQty" label="Quantity" type="text" value={formValues.shelfMaxQty} onChange={handleChange}/>
+        <Button variant='contained' color='success' onClick={handleClick}> Submit </Button>
+
         </Typography>
       </Box>
       
