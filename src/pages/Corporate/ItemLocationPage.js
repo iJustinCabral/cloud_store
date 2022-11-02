@@ -20,10 +20,46 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom'
+import { Button, TextField } from '@mui/material';
+import { useState } from 'react';
 
 const drawerWidth = 240;
 
 const ItemLocationPage = () => {
+
+  const [formValues, setFormValues] = useState({
+    sku: "",
+    aisle: "",
+    shelf: "",
+  })
+
+  const handleChange = (e) => {
+    setFormValues((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+    }))
+  }
+
+  const handleClick = (e) => {
+
+    fetch("https://jsajejpwy4.execute-api.us-east-1.amazonaws.com/default/assign_item_location_lambda", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formValues)
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response)
+      setFormValues(() => ({
+        sku: "",
+        aisle: "",
+        shelf: "",
+      }))
+    })
+  }
 
   const navigate = useNavigate()
   const itemsList = [
@@ -125,6 +161,15 @@ const ItemLocationPage = () => {
         <Typography paragraph>
         <h1> Assign Item Location</h1>
         </Typography>
+
+        <TextField id="item-input" name="item" label="Item SKU" type="text" value={formValues.sku} onChange={handleChange}/>
+        <TextField id="aisle-input" name="aisle" label="Aisle Number" type="text" value={formValues.aisle} onChange={handleChange}/>
+        <TextField id="shelf-input" name="shelf" label="Shelf Number" type="text" value={formValues.shelf} onChange={handleChange}/>
+
+        <div>
+        <Button variant='contained' color='success' onClick={handleClick}> Submit </Button>
+        </div>
+
       </Box>
       
     </Box>

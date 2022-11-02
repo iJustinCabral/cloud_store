@@ -20,11 +20,50 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom'
+import { Button, TextField } from '@mui/material';
+import { useState } from 'react';
 
 const drawerWidth = 240;
 
 
-const CreateStorePage = () => {
+const CreateStorePage = (props) => {
+
+  const [formValues, setFormValues] = useState({
+    name: "",
+    long: "",
+    lat: "",
+    username: "",
+    password: "",
+  })
+
+  const handleChange = (e) => {
+    setFormValues((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+    }))
+  }
+
+  const handleClick = (e) => {
+    fetch("https://4yu2ytiyo2.execute-api.us-east-1.amazonaws.com/default/create_store_lambda", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formValues)
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response)
+      setFormValues(() => ({
+        name: "",
+        long: "",
+        lat: "",
+        username: "",
+        password: "",
+      }))
+    })
+  }
 
   const navigate = useNavigate()
   const itemsList = [
@@ -125,6 +164,14 @@ const CreateStorePage = () => {
         <Toolbar />
         <Typography paragraph>
         <h1> Create Store</h1>
+        <TextField id="name-input" name="name" label="Store Name" type="text" value={formValues.name} onChange={handleChange}/>
+        <TextField id="longitude-input" name="long" label="Longitude" type="text" value={formValues.long} onChange={handleChange}/>
+        <TextField id="latitude-input" name="lat" label="Latitude" type="text" value={formValues.lat} onChange={handleChange}/>
+        <TextField id="username-input" name="username" label="Manager Username" type="text" value={formValues.username} onChange={handleChange}/>
+        <TextField id="password-input" name="password" label="Manager Password" type="text" value={formValues.password} onChange={handleChange}/>
+        <div>
+        <Button variant='contained' color='success' onClick={handleClick}> Submit </Button>
+        </div>
         </Typography>
       </Box>
       

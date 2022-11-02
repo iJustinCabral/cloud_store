@@ -170,8 +170,11 @@ const CreateItemPage = (props) => {
         <TextField id="name-input" name="name" label="Name" type="text" value={formValues.name} onChange={handleChange}/>
         <TextField id="description-input" name="description" label="Description" type="text" value={formValues.description} onChange={handleChange}/>
         <TextField id="price-input" name="price" label="Price" type="text" value={formValues.price} onChange={handleChange}/>
-        <TextField id="shelfMaxQty-input" name="shelfMaxQty" label="Quantity" type="text" value={formValues.shelfMaxQty} onChange={handleChange}/>
+        <TextField id="shelfMaxQty-input" name="shelfMaxQty" label="Max Quantity" type="text" value={formValues.shelfMaxQty} onChange={handleChange}/>
+
+        <div>
         <Button variant='contained' color='success' onClick={handleClick}> Submit </Button>
+        </div>
 
         </Typography>
       </Box>
