@@ -162,7 +162,7 @@ const ItemLocationPage = () => {
         <h1> Assign Item Location</h1>
         </Typography>
 
-        <TextField id="item-input" name="item" label="Item SKU" type="text" value={formValues.sku} onChange={handleChange}/>
+        <TextField id="item-input" name="sku" label="Item SKU" type="text" value={formValues.sku} onChange={handleChange}/>
         <TextField id="aisle-input" name="aisle" label="Aisle Number" type="text" value={formValues.aisle} onChange={handleChange}/>
         <TextField id="shelf-input" name="shelf" label="Shelf Number" type="text" value={formValues.shelf} onChange={handleChange}/>
 
