@@ -21,34 +21,34 @@ import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
-export default function Manager() {
-
-const navigate = useNavigate()
+const ManGORPage = () => {
+  const navigate = useNavigate()
   const itemsList = [
     { 
-      text: 'Process Shipment',
-      icon:  <LocalShippingIcon />,
-      onClick: () => navigate('/manager/Process_shipment')
+        text: 'Process Shipment',
+        icon:  <LocalShippingIcon />,
+        onClick: () => navigate('/manager/Process_shipment')
     }, 
     {
-      text: 'Generate Inventory Report',
-      icon: <AssessmentIcon />,
-      onClick: () => navigate('/manager/mgir')
+        text: 'Generate Inventory Report',
+        icon: <AssessmentIcon />,
+        onClick: () => navigate('/manager/mgir')
+
     },
     {
-      text: 'Generate Overstock Report',
-      icon: <SummarizeIcon />,
-      onClick: () => navigate('/manager/mgor')
+        text: 'Generate Overstock Report',
+        icon: <SummarizeIcon />,
+        onClick: () => navigate('/manager/mgor')
+    }, 
+    {
+        text: 'Fill Shelves',
+        icon: <TableRowsIcon />,
+        onClick: () => navigate('/manager/fill_shelves')
     },
     {
-      text: 'Fill Shelves',
-      icon: <TableRowsIcon />,
-      onClick: () => navigate('/manager/fill_shelves')
-    },
-    {
-      text: 'Missing Items',
-      icon: <RuleIcon />,
-      onClick: () => navigate('/manager/show_missing_items')
+        text: 'Missing Items',
+        icon: <RuleIcon />,
+        onClick: () => navigate('/manager/show_missing_items')
     }
   ]
 
@@ -80,7 +80,7 @@ const navigate = useNavigate()
         <Toolbar />
         <Divider />
         <List>
-        {itemsList.map((item, index) => {
+          {itemsList.map((item, index) => {
             const { text, icon, onClick } = item 
             return (
               <ListItem button key={text} onClick={onClick}>
@@ -92,7 +92,7 @@ const navigate = useNavigate()
         </List>
         <Divider />
         <List>
-        {['Logout'].map((text, icon, onClick) => (
+          {['Logout'].map((text, icon, onClick) => (
             <ListItem key={text} disablePadding>
               <ListItemButton onClick={() => {navigate('/') }}>
                 <ListItemIcon>
@@ -110,12 +110,12 @@ const navigate = useNavigate()
       >
         <Toolbar />
         <Typography paragraph>
-        <h1> Welcome to the Manager Dashboard</h1>
-        <h4> Please choose options located on the side</h4>
+        <h1> Generate Overstock Report</h1>
         </Typography>
-        
       </Box>
       
     </Box>
   );
 }
+
+export default ManGORPage

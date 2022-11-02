@@ -12,6 +12,11 @@ import CreateStorePage from './pages/Corporate/CreateStorePage'
 import RemoveStorePage from './pages/Corporate/RemoveStorePage'
 import CorpGTIRPage from './pages/Corporate/CorpGTIRPage'
 import CorpGIRPage from './pages/Corporate/CorpGIRPage'
+import ProcessShipmentPage from './pages/Manager/ProcessShipmentPage';
+import ManGIRPage from './pages/Manager/ManGIRPage';
+import ManGORPage from './pages/Manager/ManGORPage';
+import FillShelvesPage from './pages/Manager/FillShelvesPage';
+import ShowMissingItemsPage from './pages/Manager/ShowMissingItemsPage';
 
 
 
@@ -33,6 +38,12 @@ function App() {
           <Route path='/corporate/remove_store' element={<RemoveStorePage />} />
           <Route path='/corporate/gtir' element={<CorpGTIRPage />} />
           <Route path='/corporate/gir' element={<CorpGIRPage />} />
+
+          <Route path='/manager/Process_shipment' element={<ProcessShipmentPage />} />
+          <Route path='/manager/mgir' element={<ManGIRPage />} />
+          <Route path='/manager/mgor' element={<ManGORPage />} />
+          <Route path='/manager/fill_shelves' element={<FillShelvesPage />} />
+          <Route path='/manager/show_missing_items' element={<ShowMissingItemsPage />} />
 
         </Routes>
     </Router>
