@@ -31,7 +31,14 @@ const ManGIRPage = (props) => {
 
   const[itemArray,setItemArray]=useState([]);
 
+  const [itemArr, setItemArr] = useState([]);
+
   const [totalValue, setTotalValue] = useState(0);
+
+  const ConsoleLog = ({ children }) => {
+    console.log(children);
+    return false;
+  };
 
   const handleChange = (e) => {
     setFormValues((prevState) => ({
@@ -41,7 +48,7 @@ const ManGIRPage = (props) => {
   }
 
   const handleClick = (e) => {
-    fetch("", {
+    fetch("https://yh6sflrwml.execute-api.us-east-1.amazonaws.com/default/generate_inventory_report_lambda", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -51,9 +58,14 @@ const ManGIRPage = (props) => {
     })
     .then(response => response.json())
     .then(response => {
-      console.log(response)
-      setItemArray(response.items)
-      setTotalValue(response.total_value)
+      console.log(response);
+      for (let item in response.inventory){
+        setItemArray(itemArray.push(response.inventory[item]))
+      }
+      // console.log(itemArray)
+      // console.log(typeof itemArray)
+      // setTotalValue(response.total_value)
+      console.log(itemArray.length)
       setFormValues(() => ({
         managerID:""
       }))
@@ -131,7 +143,7 @@ const ManGIRPage = (props) => {
         </List>
         <Divider />
         <List>
-          {itemArray.map((text, icon, onClick) => (
+          {['Logout'].map((text, icon, onClick) => (
             <ListItem key={text} disablePadding>
               <ListItemButton onClick={() => {navigate('/') }}>
                 <ListItemIcon>
@@ -150,13 +162,13 @@ const ManGIRPage = (props) => {
         <Toolbar />
         <Typography paragraph>
         <h1> Generate Inventory Report</h1>
-        <TextField id="managerID-input" name="ManagerID" label="ManagerID" type="text" value={formValues.managerID} onChange={handleChange}/>
+        <TextField id="managerID-input" name="managerID" label="managerID" type="text" value={formValues.managerID} onChange={handleChange}/>
         <Box
         sx={{
           backgroundColor: '#F8F8F8'
         }}>
           <List>
-            {itemArray.map((item,index) => (
+          
               <Box
                 sx={{
                   bgcolor: '#fff',
@@ -165,14 +177,11 @@ const ManGIRPage = (props) => {
                   p: 2,
                 }}
               >
-              <Box sx={{display: 'inline'}}> {item.aisle} </Box>
-              <Box sx={{display: 'inline'}}> {index} </Box>
-              <Box sx={{display: 'inline'}}> +18.77% </Box>
-              <Box sx={{display: 'inline'}}> vs. last week </Box>
+              <Box sx={{display: 'inline'}}> {"Test2"} </Box>
+              { console.log("Test") }
             </Box>
-            ))}
+          
           </List>
-
           <div>
           <h2>TotalValue:{totalValue}</h2>
           <Button variant='contained' color='success' onClick={handleClick}> Generate Report </Button>

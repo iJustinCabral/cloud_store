@@ -18,7 +18,7 @@ import TableRowsIcon from '@mui/icons-material/TableRows';
 import LogoutIcon from '@mui/icons-material/Logout';
 import RuleIcon from '@mui/icons-material/Rule';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField } from '@mui/material';
+import { autocompleteClasses, Button, TextField } from '@mui/material';
 import { useState } from 'react';
 
 const drawerWidth = 240;
@@ -37,21 +37,31 @@ const ProcessShipmentPage = (props) => {
     }))
   }
 
+  
   const handleClick = (e) => {
-    fetch("", {
+    var payload = {
+      managerID: "1",
+      items: [
+        {sku: "1235", quantity: "5"},
+        {sku: "123123", quantity: "10"}
+      ]
+    }
+    fetch("https://mzpfsxsqx2.execute-api.us-east-1.amazonaws.com/default/process_shipment_lambda", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formValues)
+      //body: JSON.stringify(payload),
+      body: (`{"managerID": "` + formValues.managerID+ `", "items":` + formValues.items+`}` )
     })
     .then(response => response.json())
     .then(response => {
+      console.log((`{"managerID": "` + formValues.managerID+ `", "items":` + formValues.items+`}` ))
       console.log(response)
       setFormValues(() => ({
         managerID:"",
-        items:""
+        items:"",
       }))
     })
   }
@@ -145,11 +155,26 @@ const ProcessShipmentPage = (props) => {
         <Toolbar />
         <Typography paragraph>
         <h1> Proccess Shipment</h1>
-        <TextField id="managerID-input" name="ManagerID" label="ManagerID" type="text" value={formValues.managerID} onChange={handleChange}/>
+        <TextField id="managerID-input" name="managerID" label="managerID" type="text" value={formValues.managerID} onChange={handleChange}/>
         
         <div>
-          <TextField id="items-input" name="items" label="items" type="text" size ="large" value={formValues.items} onChange={handleChange}/>
+          <TextField id="items-input" name="items" label="items" type="text"  value={formValues.items} onChange={handleChange } inputProps={{
+            sx:{
+              width:500,
+              height:500
+            }
+          }}/>
           <Button variant='contained' color='success' onClick={handleClick}> Process Shipment </Button>
+          <h2>Example 1:  [
+    {`{"sku": "DRJ297831", "quantity": "20"},`}
+    {`{"sku": "JK199283", "quantity": "3"}`}
+  ]
+</h2>
+<h2>
+  Example 2: [
+    {`{"sku": "JK199283", "quantity": "5"}`}
+  ]
+</h2>
         </div>
         </Typography>
       </Box>
