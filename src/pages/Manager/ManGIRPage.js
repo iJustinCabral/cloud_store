@@ -30,9 +30,6 @@ const ManGIRPage = (props) => {
   })
 
   const[itemArray,setItemArray]=useState([]);
-
-  const [itemArr, setItemArr] = useState([]);
-
   const [totalValue, setTotalValue] = useState(0);
 
   const ConsoleLog = ({ children }) => {
@@ -60,12 +57,9 @@ const ManGIRPage = (props) => {
     .then(response => {
       console.log(response);
       for (let item in response.inventory){
-        setItemArray(itemArray.push(response.inventory[item]))
+        setItemArray(itemArray => (itemArray.concat(response.inventory[item])))
       }
-      // console.log(itemArray)
-      // console.log(typeof itemArray)
-      // setTotalValue(response.total_value)
-      console.log(itemArray.length)
+      console.log(itemArray)
       setFormValues(() => ({
         managerID:""
       }))
@@ -168,8 +162,7 @@ const ManGIRPage = (props) => {
           backgroundColor: '#F8F8F8'
         }}>
           <List>
-          
-              <Box
+            <Box
                 sx={{
                   bgcolor: '#fff',
                   boxShadow: 1,
@@ -177,11 +170,12 @@ const ManGIRPage = (props) => {
                   p: 2,
                 }}
               >
-              <Box sx={{display: 'inline'}}> {"Test2"} </Box>
-              { console.log("Test") }
+              {itemArray.map((item) => {  
+                return <Box sx={{display: 'inline'}}>{item.itemName} {item.price} {item.qty} {item.totalValue}</Box>
+              })}
             </Box>
-          
           </List>
+          
           <div>
           <h2>TotalValue:{totalValue}</h2>
           <Button variant='contained' color='success' onClick={handleClick}> Generate Report </Button>
