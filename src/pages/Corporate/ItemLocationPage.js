@@ -42,7 +42,7 @@ const ItemLocationPage = () => {
 
   const handleClick = (e) => {
 
-    fetch("https://jsajejpwy4.execute-api.us-east-1.amazonaws.com/default/assign_item_location_lambda", {
+    fetch("https://s79jp3ctg0.execute-api.us-east-1.amazonaws.com/default/assign_item_location_lambda", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
