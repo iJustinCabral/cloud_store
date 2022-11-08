@@ -18,10 +18,49 @@ import TableRowsIcon from '@mui/icons-material/TableRows';
 import LogoutIcon from '@mui/icons-material/Logout';
 import RuleIcon from '@mui/icons-material/Rule';
 import { useNavigate } from 'react-router-dom';
+import { Button, TextField } from '@mui/material';
+import { useState } from 'react';
 
 const drawerWidth = 240;
 
-const ManGIRPage = () => {
+const ManGIRPage = (props) => {
+
+  const [formValues, setFormValues] = useState({
+    managerID: "",
+  })
+
+  const[itemArray,setItemArray]=useState([]);
+
+  const [totalValue, setTotalValue] = useState(0);
+
+  const handleChange = (e) => {
+    setFormValues((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+    }))
+  }
+
+  const handleClick = (e) => {
+    fetch("", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formValues)
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response)
+      setItemArray(response.items)
+      setTotalValue(response.total_value)
+      setFormValues(() => ({
+        managerID:""
+      }))
+    })
+  }
+
+
   const navigate = useNavigate()
   const itemsList = [
     { 
@@ -92,7 +131,7 @@ const ManGIRPage = () => {
         </List>
         <Divider />
         <List>
-          {['Logout'].map((text, icon, onClick) => (
+          {itemArray.map((text, icon, onClick) => (
             <ListItem key={text} disablePadding>
               <ListItemButton onClick={() => {navigate('/') }}>
                 <ListItemIcon>
@@ -111,6 +150,35 @@ const ManGIRPage = () => {
         <Toolbar />
         <Typography paragraph>
         <h1> Generate Inventory Report</h1>
+        <TextField id="managerID-input" name="ManagerID" label="ManagerID" type="text" value={formValues.managerID} onChange={handleChange}/>
+        <Box
+        sx={{
+          backgroundColor: '#F8F8F8'
+        }}>
+          <List>
+            {itemArray.map((item,index) => (
+              <Box
+                sx={{
+                  bgcolor: '#fff',
+                  boxShadow: 1,
+                  borderRadius: 2,
+                  p: 2,
+                }}
+              >
+              <Box sx={{display: 'inline'}}> {item.aisle} </Box>
+              <Box sx={{display: 'inline'}}> {index} </Box>
+              <Box sx={{display: 'inline'}}> +18.77% </Box>
+              <Box sx={{display: 'inline'}}> vs. last week </Box>
+            </Box>
+            ))}
+          </List>
+
+          <div>
+          <h2>TotalValue:{totalValue}</h2>
+          <Button variant='contained' color='success' onClick={handleClick}> Generate Report </Button>
+          </div>
+        </Box>
+
         </Typography>
       </Box>
       

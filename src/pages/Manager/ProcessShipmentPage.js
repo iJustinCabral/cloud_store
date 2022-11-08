@@ -18,10 +18,44 @@ import TableRowsIcon from '@mui/icons-material/TableRows';
 import LogoutIcon from '@mui/icons-material/Logout';
 import RuleIcon from '@mui/icons-material/Rule';
 import { useNavigate } from 'react-router-dom';
+import { Button, TextField } from '@mui/material';
+import { useState } from 'react';
 
 const drawerWidth = 240;
 
-const ProcessShipmentPage = () => {
+const ProcessShipmentPage = (props) => {
+
+  const [formValues, setFormValues] = useState({
+    managerID: "",
+    items:""
+  })
+
+  const handleChange = (e) => {
+    setFormValues((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+    }))
+  }
+
+  const handleClick = (e) => {
+    fetch("", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formValues)
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response)
+      setFormValues(() => ({
+        managerID:"",
+        items:""
+      }))
+    })
+  }
+
   const navigate = useNavigate()
   const itemsList = [
     { 
@@ -111,6 +145,12 @@ const ProcessShipmentPage = () => {
         <Toolbar />
         <Typography paragraph>
         <h1> Proccess Shipment</h1>
+        <TextField id="managerID-input" name="ManagerID" label="ManagerID" type="text" value={formValues.managerID} onChange={handleChange}/>
+        
+        <div>
+          <TextField id="items-input" name="items" label="items" type="text" size ="large" value={formValues.items} onChange={handleChange}/>
+          <Button variant='contained' color='success' onClick={handleClick}> Process Shipment </Button>
+        </div>
         </Typography>
       </Box>
       
