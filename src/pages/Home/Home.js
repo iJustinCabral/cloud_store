@@ -13,11 +13,7 @@ const home = () => {
         <Stack direction="row" spacing={2}>
           
             <Button component={Link} to="/login" variant="contained" color="primary">
-                Corporate
-            </Button>
-
-            <Button component={Link} to="/login" variant="contained" color="secondary">
-                Manager
+                Corporate or Manager
             </Button>
 
             <Button component={Link} to="/customer" variant="contained" color="primary" disabled>
