@@ -26,7 +26,6 @@ const drawerWidth = 240;
 const ProcessShipmentPage = (props) => {
 
   const [formValues, setFormValues] = useState({
-    managerID: "",
     items:""
   })
 
@@ -39,13 +38,6 @@ const ProcessShipmentPage = (props) => {
 
   
   const handleClick = (e) => {
-    var payload = {
-      managerID: "1",
-      items: [
-        {sku: "1235", quantity: "5"},
-        {sku: "123123", quantity: "10"}
-      ]
-    }
     fetch("https://mzpfsxsqx2.execute-api.us-east-1.amazonaws.com/default/process_shipment_lambda", {
       method: 'POST',
       headers: {
@@ -53,14 +45,13 @@ const ProcessShipmentPage = (props) => {
         'Content-Type': 'application/json'
       },
       //body: JSON.stringify(payload),
-      body: (`{"managerID": "` + formValues.managerID+ `", "items":` + formValues.items+`}` )
+      body: (`{"managerID": "` + localStorage.getItem('managerID') + `", "items":` + formValues.items+`}` )
     })
     .then(response => response.json())
     .then(response => {
-      console.log((`{"managerID": "` + formValues.managerID+ `", "items":` + formValues.items+`}` ))
+      console.log((`{"managerID": "` + localStorage.getItem('managerID') + `", "items":` + formValues.items+`}` ))
       console.log(response)
       setFormValues(() => ({
-        managerID:"",
         items:"",
       }))
     })
@@ -154,9 +145,7 @@ const ProcessShipmentPage = (props) => {
       >
         <Toolbar />
         <Typography paragraph>
-        <h1> Proccess Shipment</h1>
-        <TextField id="managerID-input" name="managerID" label="managerID" type="text" value={formValues.managerID} onChange={handleChange}/>
-        
+        <h1> Proccess Shipment</h1>        
         <div>
           <TextField id="items-input" name="items" label="items" type="text"  value={formValues.items} onChange={handleChange } inputProps={{
             sx:{
@@ -164,7 +153,9 @@ const ProcessShipmentPage = (props) => {
               height:500
             }
           }}/>
-          <Button variant='contained' color='success' onClick={handleClick}> Process Shipment </Button>
+          <div>
+            <Button variant='contained' color='success' onClick={handleClick}> Process Shipment </Button>
+          </div>
           <h2>Example 1:  [
     {`{"sku": "DRJ297831", "quantity": "20"},`}
     {`{"sku": "JK199283", "quantity": "3"}`}

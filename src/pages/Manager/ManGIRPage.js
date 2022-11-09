@@ -25,33 +25,22 @@ const drawerWidth = 240;
 
 const ManGIRPage = (props) => {
 
-  const [formValues, setFormValues] = useState({
-    managerID: "",
-  })
-
   const[itemArray,setItemArray]=useState([]);
   const [totalValue, setTotalValue] = useState(0);
 
-  const ConsoleLog = ({ children }) => {
-    console.log(children);
-    return false;
-  };
-
-  const handleChange = (e) => {
-    setFormValues((prevState) => ({
-        ...prevState,
-        [e.target.name]: e.target.value,
-    }))
-  }
-
   const handleClick = (e) => {
+    console.log("----MANGER ID -----")
+    var blah = JSON.stringify(localStorage.getItem('managerID'))
+    console.log(blah)
     fetch("https://yh6sflrwml.execute-api.us-east-1.amazonaws.com/default/generate_inventory_report_lambda", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formValues)
+      body: JSON.stringify({
+        managerID: localStorage.getItem('managerID')
+      })
     })
     .then(response => response.json())
     .then(response => {
@@ -60,9 +49,6 @@ const ManGIRPage = (props) => {
         setItemArray(itemArray => (itemArray.concat(response.inventory[item])))
       }
       console.log(itemArray)
-      setFormValues(() => ({
-        managerID:""
-      }))
     })
   }
 
@@ -156,7 +142,6 @@ const ManGIRPage = (props) => {
         <Toolbar />
         <Typography paragraph>
         <h1> Generate Inventory Report</h1>
-        <TextField id="managerID-input" name="managerID" label="managerID" type="text" value={formValues.managerID} onChange={handleChange}/>
         <Box
         sx={{
           backgroundColor: '#F8F8F8'
@@ -171,7 +156,7 @@ const ManGIRPage = (props) => {
                 }}
               >
               {itemArray.map((item) => {  
-                return <Box sx={{display: 'inline'}}>{item.itemName} {item.price} {item.qty} {item.totalValue}</Box>
+                return <div>{item.itemName} {item.price} {item.qty} {item.totalValue}</div>
               })}
             </Box>
           </List>
