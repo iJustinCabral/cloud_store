@@ -3,6 +3,9 @@ import { Button, Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const home = () => {
+    localStorage.setItem("managerID", "0")
+    console.log(localStorage.getItem("managerID")
+    )
   return (
     <div>
         <h1> Welcome To The Cloud Store </h1>
