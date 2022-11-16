@@ -20,7 +20,7 @@ import { useNavigate } from 'react-router-dom'
 
 const drawerWidth = 240;
 
-export default function Customer(props) {
+export default function CustListStoresPage(props) {
   const navigate = useNavigate()
   const itemsList = [
     {
@@ -99,8 +99,7 @@ export default function Customer(props) {
       >
         <Toolbar />
         <Typography paragraph>
-        <h1> Welcome to the Customer Dashboard</h1>
-        <h4> Please choose options located on the side</h4>
+        <h1> Welcome to the Customer List Stores Page</h1>
         </Typography>
       </Box>
       
