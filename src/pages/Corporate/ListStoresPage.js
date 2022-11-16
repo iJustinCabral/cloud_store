@@ -20,10 +20,38 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom'
+import { Button } from '@mui/material';
+import { useState } from 'react';
 
 const drawerWidth = 240;
 
 const ListStoresPage = () => {
+
+  const [storeArray,setStoreArray] = useState([]);
+
+
+  const handleClick = (e) => {
+    fetch("https://j2l5dyqb1h.execute-api.us-east-1.amazonaws.com/default/corporate_list_stores", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: ''
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response)
+      for (let index in response.Stores){
+        let store = response.Stores[index]
+        setStoreArray(storeArray => (storeArray.concat(store)))
+      }
+
+      console.log(storeArray)
+
+    })
+  }
+
 
   const navigate = useNavigate()
   const itemsList = [
@@ -124,7 +152,28 @@ const ListStoresPage = () => {
         <Toolbar />
         <Typography paragraph>
         <h1> List Stores</h1>
+        <Button variant='contained' color='success' onClick={handleClick}> Generate List </Button>
         </Typography>
+
+        <Box
+        sx={{
+          backgroundColor: '#F8F8F8'
+        }}>
+          <List>
+            <Box
+                sx={{
+                  bgcolor: '#fff',
+                  boxShadow: 1,
+                  borderRadius: 2,
+                  p: 2,
+                }}
+              >
+              {storeArray.map((store) => {  
+                return <div><b>Store Name:</b> {store.name} <b>Store ID:</b> {store.storeID}</div>
+              })}
+            </Box>
+          </List>
+        </Box>
       </Box>
       
     </Box>

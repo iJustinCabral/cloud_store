@@ -31,7 +31,6 @@ const ManGIRPage = (props) => {
   const handleClick = (e) => {
     console.log("----MANGER ID -----")
     var blah = JSON.stringify(localStorage.getItem('managerID'))
-    console.log(blah)
     fetch("https://yh6sflrwml.execute-api.us-east-1.amazonaws.com/default/generate_inventory_report_lambda", {
       method: 'POST',
       headers: {

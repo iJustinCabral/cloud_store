@@ -20,10 +20,46 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom'
+import { Button, TextField } from '@mui/material';
+import { useState } from 'react';
+
 
 const drawerWidth = 240;
 
 const CorpGIRPage = () => {
+
+  const[itemArray,setItemArray]=useState([]);
+  const [formValues, setFormValues] = useState({
+    storeID: ""
+  })
+
+  const handleChange = (e) => {
+    setFormValues((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+    }))
+  }
+
+
+  const handleClick = (e) => {
+    fetch("https://38ncxacpui.execute-api.us-east-1.amazonaws.com/default/corporate_generate_store_inventory_report", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formValues)
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+      for (let item in response.inventory){
+        setItemArray(itemArray => (itemArray.concat(response.inventory[item])))
+      }
+      console.log(itemArray)
+    })
+  }
+
   const navigate = useNavigate()
   const itemsList = [
     { 
@@ -123,7 +159,31 @@ const CorpGIRPage = () => {
         <Toolbar />
         <Typography paragraph>
         <h1> Generate Inventory Report</h1>
+        <TextField id="storeID-input" name="storeID" label="Store ID" type="text" value={formValues.storeID} onChange={handleChange}/>
+        <div>
+        <Button variant='contained' color='success' onClick={handleClick}> Submit </Button>
+        </div>
         </Typography>
+
+        <Box
+        sx={{
+          backgroundColor: '#F8F8F8'
+        }}>
+          <List>
+            <Box
+                sx={{
+                  bgcolor: '#fff',
+                  boxShadow: 1,
+                  borderRadius: 2,
+                  p: 2, 
+                }}
+              >
+              {itemArray.map((item) => {  
+                return <div>{item.itemName} {item.price} {item.qty} {item.totalValue}</div>
+              })}
+            </Box>
+          </List>
+          </Box>
       </Box>
       
     </Box>
