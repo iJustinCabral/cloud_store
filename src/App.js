@@ -17,6 +17,9 @@ import ManGIRPage from './pages/Manager/ManGIRPage';
 import ManGORPage from './pages/Manager/ManGORPage';
 import FillShelvesPage from './pages/Manager/FillShelvesPage';
 import ShowMissingItemsPage from './pages/Manager/ShowMissingItemsPage';
+import CustItemsOnASPage from './pages/Customer/CustItemsOnASPage';
+import CustListStoresPage from './pages/Customer/CustListStoresPage';
+import FindItemsPage from './pages/Customer/FindItemsPage';
 
 
 
@@ -44,6 +47,10 @@ function App() {
           <Route path='/manager/mgor' element={<ManGORPage />} />
           <Route path='/manager/fill_shelves' element={<FillShelvesPage />} />
           <Route path='/manager/show_missing_items' element={<ShowMissingItemsPage />} />
+
+          <Route path='/customer/items_on_shelves' element={<CustItemsOnASPage />} />
+          <Route path='/customer/cust_list_stores' element={<CustListStoresPage />} />
+          <Route path='/customer/find_items' element={<FindItemsPage />} />
 
         </Routes>
     </Router>
