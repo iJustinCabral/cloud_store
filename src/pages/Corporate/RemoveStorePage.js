@@ -20,11 +20,42 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom'
+import { Button, TextField } from '@mui/material';
+import { useState } from 'react';
 
 const drawerWidth = 240;
 
-
 const RemoveStorePage = () => {
+
+  const [formValues, setFormValues] = useState({
+    storeID: ""
+  })
+
+  const handleChange = (e) => {
+    setFormValues((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+    }))
+  }
+
+  const handleClick = (e) => {
+    fetch("https://a0yxlbtegg.execute-api.us-east-1.amazonaws.com/default/corporate_remove_store", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formValues)
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response)
+      setFormValues(() => ({
+        storeID: "",
+      }))
+    })
+  }
+
 
   const navigate = useNavigate()
   const itemsList = [
@@ -125,7 +156,11 @@ const RemoveStorePage = () => {
         <Toolbar />
         <Typography paragraph>
         <h1> Remove Store</h1>
+        <TextField id="storeID-input" name="storeID" label="Store ID" type="text" value={formValues.storeID} onChange={handleChange}/>
         </Typography>
+        <div>
+        <Button variant='contained' color='success' onClick={handleClick}> Submit </Button>
+        </div>
       </Box>
       
     </Box>

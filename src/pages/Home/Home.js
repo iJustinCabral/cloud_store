@@ -16,7 +16,7 @@ const home = () => {
                 Corporate or Manager
             </Button>
 
-            <Button component={Link} to="/customer" variant="contained" color="primary" disabled>
+            <Button component={Link} to="/customer" variant="contained" color="success">
                 Customer
             </Button>
         </Stack>

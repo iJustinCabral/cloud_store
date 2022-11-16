@@ -165,8 +165,8 @@ const CreateStorePage = (props) => {
         <Typography paragraph>
         <h1> Create Store</h1>
         <TextField id="name-input" name="name" label="Store Name" type="text" value={formValues.name} onChange={handleChange}/>
-        <TextField id="longitude-input" name="long" label="Longitude" type="text" value={formValues.long} onChange={handleChange}/>
         <TextField id="latitude-input" name="lat" label="Latitude" type="text" value={formValues.lat} onChange={handleChange}/>
+        <TextField id="longitude-input" name="long" label="Longitude" type="text" value={formValues.long} onChange={handleChange}/>
         <TextField id="username-input" name="username" label="Manager Username" type="text" value={formValues.username} onChange={handleChange}/>
         <TextField id="password-input" name="password" label="Manager Password" type="text" value={formValues.password} onChange={handleChange}/>
         <div>
