@@ -18,10 +18,42 @@ import TableRowsIcon from '@mui/icons-material/TableRows';
 import LogoutIcon from '@mui/icons-material/Logout';
 import RuleIcon from '@mui/icons-material/Rule';
 import { useNavigate } from 'react-router-dom';
+import { Button, TextField } from '@mui/material';
+import { useState } from 'react';
 
 const drawerWidth = 240;
 
-const ManGORPage = () => {
+const ManGORPage = (props) => {
+
+  const[itemArray,setItemArray]=useState([]);
+  const [totalValue, setTotalValue] = useState(0);
+
+  const handleClick = (e) => {
+    console.log("----MANGER ID -----")
+    var blah = JSON.stringify(localStorage.getItem('managerID'))
+    console.log(blah)
+    //Put New Lambda here
+    fetch("https://wwckwvkxc0.execute-api.us-east-1.amazonaws.com/default/manager_generate_overstock_report", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        managerID: localStorage.getItem('managerID')
+      })
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+      for (let item in response.overstock){
+        setItemArray(itemArray => (itemArray.concat(response.overstock[item])))
+      }
+      console.log(itemArray)
+    })
+  }
+
+
   const navigate = useNavigate()
   const itemsList = [
     { 
@@ -110,7 +142,32 @@ const ManGORPage = () => {
       >
         <Toolbar />
         <Typography paragraph>
-        <h1> Generate Overstock Report</h1>
+        <h1> Generate Inventory Report</h1>
+        <Box
+        sx={{
+          backgroundColor: '#F8F8F8'
+        }}>
+          <List>
+            <Box
+                sx={{
+                  bgcolor: '#fff',
+                  boxShadow: 1,
+                  borderRadius: 2,
+                  p: 2,
+                }}
+              >
+              {itemArray.map((item) => {  
+                return <div>{item.itemName} {item.price} {item.qty} {item.totalValue}</div>
+              })}
+            </Box>
+          </List>
+          
+          <div>
+          <h2>TotalValue:{totalValue}</h2>
+          <Button variant='contained' color='success' onClick={handleClick}> Generate Report </Button>
+          </div>
+        </Box>
+
         </Typography>
       </Box>
       
