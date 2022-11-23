@@ -16,11 +16,50 @@ import BlindsClosedIcon from '@mui/icons-material/BlindsClosed';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react';
+import { Button, TextField } from '@mui/material';
 
 
 const drawerWidth = 240;
 
-export default function CustItemsOnASPage(props) {
+const CustItemsOnASPage = () => {
+
+  const[formValues, setFormValues] = useState({
+    storeID: "",
+    aisle: "",
+    shelf: ""
+  })
+
+  const handleChange = (e) => {
+    setFormValues((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+    }))
+  }
+
+  const handleClick = (e) => {
+
+    fetch("https://ypjlzzj4l7.execute-api.us-east-1.amazonaws.com/default/customer_list_items_on_aisle_shelf_in_store", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formValues)
+    })
+    .then(response => response.json())
+    .then(response => console.log())
+    .then(response => {
+      console.log(response)
+      setFormValues(() => ({
+        storeID: "",
+        aisle: "",
+        shelf: "",
+      }))
+    })
+  }
+
+
   const navigate = useNavigate()
   const itemsList = [
     {
@@ -99,10 +138,21 @@ export default function CustItemsOnASPage(props) {
       >
         <Toolbar />
         <Typography paragraph>
-        <h1> Welcome to the Customer Items on Shelf Page</h1>
+        <h1>List Items on Aisle Shelf in Store </h1>
         </Typography>
+
+        <TextField id="store-input" name="storeID" label="Store ID" type="text" value={formValues.storeID} onChange={handleChange}/>
+        <TextField id="aisle-input" name="aisle" label="Aisle Number" type="text" value={formValues.aisle} onChange={handleChange}/>
+        <TextField id="shelf-input" name="shelf" label="Shelf Number" type="text" value={formValues.shelf} onChange={handleChange}/>
+
+        <div>
+        <Button variant='contained' color='success' onClick={handleClick}>Submit</Button>
+        </div>
+
       </Box>
       
     </Box>
   );
 }
+
+export default CustItemsOnASPage;

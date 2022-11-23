@@ -16,11 +16,48 @@ import BlindsClosedIcon from '@mui/icons-material/BlindsClosed';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom'
-
+import { useState } from 'react';
+import { Button, TextField } from '@mui/material';
 
 const drawerWidth = 240;
 
-export default function CustListStoresPage(props) {
+const CustListStoresPage = () => {
+
+  const[formValues, setFormValues] = useState({
+    long:"",
+    lat:"",
+  })
+
+  const handleChange = (e) => {
+    setFormValues((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+    }))
+  }
+
+  const handleClick = (e) => {
+
+    fetch("", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formValues)
+    })
+    .then(response => response.json())
+    .then(response => console.log())
+    .then(response => {
+      console.log(response)
+      setFormValues(() => ({
+        storeID: "",
+        aisle: "",
+        shelf: "",
+      }))
+    })
+  }
+
+
   const navigate = useNavigate()
   const itemsList = [
     {
@@ -99,10 +136,18 @@ export default function CustListStoresPage(props) {
       >
         <Toolbar />
         <Typography paragraph>
-        <h1> Welcome to the Customer List Stores Page</h1>
+        <h1> Customer List Stores </h1>
         </Typography>
+
+
+        <TextField id="long-input" name="long" label="Longitude" type="text" value={formValues.long} onChange={handleChange}/>
+        <TextField id="lat-input" name="late" label="Latitude" type="text" value={formValues.lat} onChange={handleChange}/>
+
+        <Button variant="contained" color='success' onClick={handleClick}>search</Button>
       </Box>
       
     </Box>
   );
 }
+
+export default CustListStoresPage;
