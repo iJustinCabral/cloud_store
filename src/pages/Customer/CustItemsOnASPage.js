@@ -24,6 +24,8 @@ const drawerWidth = 240;
 
 const CustItemsOnASPage = () => {
 
+  const [itemArray,setItemArray] = useState([]);
+
   const[formValues, setFormValues] = useState({
     storeID: "",
     aisle: "",
@@ -55,6 +57,12 @@ const CustItemsOnASPage = () => {
         aisle: "",
         shelf: "",
       }))
+      for (let index in response.ItemsOnShelf){
+        let item = response.ItemsOnShelf[index]
+        setItemArray(itemArray => (itemArray.concat(item)))
+      }
+
+      console.log(itemArray)
     })
   }
 
@@ -147,6 +155,22 @@ const CustItemsOnASPage = () => {
         <div>
         <Button variant='contained' color='success' onClick={handleClick}>Submit</Button>
         </div>
+
+        <Box sx={{backgroundColor: "F8F8F8"}}>
+          {itemArray.map((item) => {
+            return <Box sx={{bgcolor: 'fff',
+                            boxShadow: 1,
+                            borderRadius: 2,
+                              p:2,}}
+                                >
+          <Box> Item Name: {item.itemName}</Box>
+          <Box> Item Description: {item.itemDescription}</Box>
+          <Box> Price: {item.price}</Box>
+          <Box> Quantity: {item.qty}</Box>
+        </Box>
+      })}          
+        </Box>
+
 
       </Box>
       
