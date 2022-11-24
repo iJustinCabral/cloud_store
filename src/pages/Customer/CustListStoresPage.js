@@ -23,9 +23,11 @@ const drawerWidth = 240;
 
 const CustListStoresPage = () => {
 
+  const [storeArray,setStoreArray] = useState([]);
+
   const[formValues, setFormValues] = useState({
-    long:"",
-    lat:"",
+    latitude:"",
+    longitude:""
   })
 
   const handleChange = (e) => {
@@ -36,8 +38,9 @@ const CustListStoresPage = () => {
   }
 
   const handleClick = (e) => {
+    console.log(formValues)
 
-    fetch("", {
+    fetch("https://c9atyzlbgl.execute-api.us-east-1.amazonaws.com/default/customer_list_stores", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -46,14 +49,19 @@ const CustListStoresPage = () => {
       body: JSON.stringify(formValues)
     })
     .then(response => response.json())
-    .then(response => console.log())
     .then(response => {
       console.log(response)
+      console.log(JSON.stringify(formValues))
       setFormValues(() => ({
-        storeID: "",
-        aisle: "",
-        shelf: "",
+        latitude:"",
+        longitude:""
       }))
+      for (let index in response.Stores){
+        let store = response.Stores[index]
+        setStoreArray(storeArray => (storeArray.concat(store)))
+      }
+
+      console.log(storeArray)
     })
   }
 
@@ -139,11 +147,25 @@ const CustListStoresPage = () => {
         <h1> Customer List Stores </h1>
         </Typography>
 
-
-        <TextField id="long-input" name="long" label="Longitude" type="text" value={formValues.long} onChange={handleChange}/>
-        <TextField id="lat-input" name="late" label="Latitude" type="text" value={formValues.lat} onChange={handleChange}/>
+        <TextField id="latitude-input" name="latitude" label="Latitude" type="text" value={formValues.latitude} onChange={handleChange}/>
+        <TextField id="longitude-input" name="longitude" label="Longitude" type="text" value={formValues.longitude} onChange={handleChange}/>
 
         <Button variant="contained" color='success' onClick={handleClick}>search</Button>
+
+        <Box sx={{backgroundColor: "F8F8F8"}}>
+          {storeArray.map((store) => {
+            return <Box sx={{bgcolor: 'fff',
+                            boxShadow: 1,
+                            borderRadius: 2,
+                              p:2,}}
+                                >
+          <Box> Store Name: {store.storeName}</Box>
+          <Box> Store ID: {store.storeID}</Box>
+          <Box> Distance: {store.distance}</Box>
+        </Box>
+      })}          
+        </Box>
+
       </Box>
       
     </Box>

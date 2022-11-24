@@ -48,7 +48,6 @@ const CustItemsOnASPage = () => {
       body: JSON.stringify(formValues)
     })
     .then(response => response.json())
-    .then(response => console.log())
     .then(response => {
       console.log(response)
       setFormValues(() => ({
