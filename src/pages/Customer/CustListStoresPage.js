@@ -16,11 +16,56 @@ import BlindsClosedIcon from '@mui/icons-material/BlindsClosed';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom'
-
+import { useState } from 'react';
+import { Button, TextField } from '@mui/material';
 
 const drawerWidth = 240;
 
-export default function CustListStoresPage(props) {
+const CustListStoresPage = () => {
+
+  const [storeArray,setStoreArray] = useState([]);
+
+  const[formValues, setFormValues] = useState({
+    latitude:"",
+    longitude:""
+  })
+
+  const handleChange = (e) => {
+    setFormValues((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+    }))
+  }
+
+  const handleClick = (e) => {
+    console.log(formValues)
+
+    fetch("https://c9atyzlbgl.execute-api.us-east-1.amazonaws.com/default/customer_list_stores", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formValues)
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response)
+      console.log(JSON.stringify(formValues))
+      setFormValues(() => ({
+        latitude:"",
+        longitude:""
+      }))
+      for (let index in response.Stores){
+        let store = response.Stores[index]
+        setStoreArray(storeArray => (storeArray.concat(store)))
+      }
+
+      console.log(storeArray)
+    })
+  }
+
+
   const navigate = useNavigate()
   const itemsList = [
     {
@@ -99,10 +144,32 @@ export default function CustListStoresPage(props) {
       >
         <Toolbar />
         <Typography paragraph>
-        <h1> Welcome to the Customer List Stores Page</h1>
+        <h1> Customer List Stores </h1>
         </Typography>
+
+        <TextField id="latitude-input" name="latitude" label="Latitude" type="text" value={formValues.latitude} onChange={handleChange}/>
+        <TextField id="longitude-input" name="longitude" label="Longitude" type="text" value={formValues.longitude} onChange={handleChange}/>
+
+        <Button variant="contained" color='success' onClick={handleClick}>search</Button>
+
+        <Box sx={{backgroundColor: "F8F8F8"}}>
+          {storeArray.map((store) => {
+            return <Box sx={{bgcolor: 'fff',
+                            boxShadow: 1,
+                            borderRadius: 2,
+                              p:2,}}
+                                >
+          <Box> Store Name: {store.storeName}</Box>
+          <Box> Store ID: {store.storeID}</Box>
+          <Box> Distance: {store.distance}</Box>
+        </Box>
+      })}          
+        </Box>
+
       </Box>
       
     </Box>
   );
 }
+
+export default CustListStoresPage;
