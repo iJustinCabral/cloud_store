@@ -155,12 +155,10 @@ const ListStoresPage = () => {
         <Button variant='contained' color='success' onClick={handleClick}> Generate List </Button>
         </Typography>
 
-        <Box
-        sx={{
-          backgroundColor: '#F8F8F8'
-        }}>
+        <Box sx={{ backgroundColor: '#F8F8F8' }}>
           <List>
-            <Box
+          {storeArray.map((store) => {  
+                return <Box
                 sx={{
                   bgcolor: '#fff',
                   boxShadow: 1,
@@ -168,10 +166,11 @@ const ListStoresPage = () => {
                   p: 2,
                 }}
               >
-              {storeArray.map((store) => {  
-                return <div><b>Store Name:</b> {store.name} <b>Store ID:</b> {store.storeID}</div>
-              })}
+              <Box><b>Store Name:</b> {store.name} </Box> 
+              <Box><b>Store ID:</b> {store.storeID}</Box>
             </Box>
+          })}
+         
           </List>
         </Box>
       </Box>
