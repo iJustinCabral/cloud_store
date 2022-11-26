@@ -15,7 +15,7 @@ import ListIcon from '@mui/icons-material/List';
 import BlindsClosedIcon from '@mui/icons-material/BlindsClosed';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Button, TextField } from '@mui/material';
 
