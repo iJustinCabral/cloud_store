@@ -18,10 +18,39 @@ import TableRowsIcon from '@mui/icons-material/TableRows';
 import LogoutIcon from '@mui/icons-material/Logout';
 import RuleIcon from '@mui/icons-material/Rule';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Button, TextField } from '@mui/material';
 
 const drawerWidth = 240;
 
 const ShowMissingItemsPage = () => {
+
+  const [itemArray, setItemArray] = useState([]);
+
+  const handleClick = (e) => {
+    console.log("----MANGER ID -----")
+    var blah = JSON.stringify(localStorage.getItem('managerID'))
+
+    fetch("https://y348qkdqm4.execute-api.us-east-1.amazonaws.com/default/Iteration_3_Manager_Show_Missing_Items", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        managerID: localStorage.getItem('managerID')
+      })
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response)
+      for (let index in response.Missing_Items){
+        let item = response.Missing_Items[index]
+        setItemArray(itemArray => (itemArray.concat(item)))
+      }
+    })
+  }
+
   const navigate = useNavigate()
   const itemsList = [
     { 
@@ -112,6 +141,22 @@ const ShowMissingItemsPage = () => {
         <Typography paragraph>
         <h1> ShowMissingItemsPage</h1>
         </Typography>
+
+        <Button variant='contained' color='success' onClick={handleClick}>Show Mising Items</Button>
+        
+        <Box sx={{backgroundColor: "F8F8F8"}}>
+          {itemArray.map((item) => {
+            return <Box sx={{bgcolor: 'fff',
+                            boxShadow: 1,
+                            borderRadius: 2,
+                              p:2,}}
+                                >
+          <Box> Item Name: {item.itemName}</Box>
+          <Box> Item Price: {item.price}</Box>
+          <Box> Item QTY: {item.qty}</Box>
+        </Box>
+      })}          
+        </Box>
       </Box>
       
     </Box>
