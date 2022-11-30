@@ -153,6 +153,10 @@ const FindItemsPage = () => {
     })
   }
 
+  const handleBuy = (itemName) => {
+
+  }
+
   const navigate = useNavigate()
   const itemsList = [
     {
@@ -260,6 +264,7 @@ const FindItemsPage = () => {
           <Box> Store ID: {store.storeID}</Box>
           <Box> Distance: {store.distance}</Box>
           <Box> Quantity: {store.itemQty}</Box>
+          <Button variant='contained' color='success' onClick={handleBuy(store.itemName)}> Generate Report </Button>
         </Box>
       })}
       </Box>  

@@ -170,18 +170,14 @@ const CorpGIRPage = () => {
           backgroundColor: '#F8F8F8'
         }}>
           <List>
-            <Box
-                sx={{
-                  bgcolor: '#fff',
-                  boxShadow: 1,
-                  borderRadius: 2,
-                  p: 2, 
-                }}
-              >
-              {itemArray.map((item) => {  
-                return <div>{item.itemName} {item.price} {item.qty} {item.totalValue}</div>
+          {itemArray.map((item) => {  
+                return <Box sx={{ bgcolor: '#fff',boxShadow: 1,borderRadius: 2,p: 2, padding: '10px'}}>
+                  <Box><b>Item Name: </b>{item.itemName}</Box>
+                  <Box><b>Item Price: </b>{item.price}</Box>
+                  <Box><b>Item Quantity: </b>{item.qty}</Box>
+                  <Box><b>Total Value in Store: </b>${item.totalValue}</Box>
+                </Box>
               })}
-            </Box>
           </List>
           </Box>
       </Box>
