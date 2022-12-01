@@ -28,7 +28,6 @@ const FindItemsPage = () => {
   const[isSKUDisabled, setIsSKUDisabled] = useState(false);
   const[isNameDisabled, setisNameDisabled] = useState(false);
   const[isDescDisabled, setisDescDisabled] = useState(false);
-
   const [storeArray,setStoreArray] = useState([]);
   
   const[formValues, setFormValues] = useState({
@@ -47,10 +46,6 @@ const FindItemsPage = () => {
   }
 
   const handleChangeSKU = (e) => {
-    // setFormValues((prevState) => ({
-    //     ...prevState,
-    //     [e.target.name]: e.target.value,
-    // }))
     if(e.target.value.length > 0){
       setisNameDisabled(true);
       setisDescDisabled(true);
@@ -153,9 +148,39 @@ const FindItemsPage = () => {
     })
   }
 
-  const handleBuy = (itemName) => {
+  const handleBuy = (sku,storeID, storeQty) => {
+    var quantity = parseInt(prompt("Please enter quanity to purchase"))
+    console.log(quantity)
 
+      if (quantity > 0 && storeQty >= quantity) {
+
+        let body = {
+          sku: sku,
+          qty: quantity,
+          storeID: storeID
+        }
+
+        console.log(body)
+
+        fetch("https://jyeyh3jt8c.execute-api.us-east-1.amazonaws.com/default/Iteration_3_Customer_Buy_Item", {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        })
+        .then(response => response.json())
+        .then(response => {
+          console.log(response)
+          if(window.confirm('You purchased ' + quantity + " items.")){
+            window.location.reload();  
+          }
+        })
+    }
   }
+
+  
 
   const navigate = useNavigate()
   const itemsList = [
@@ -258,13 +283,14 @@ const FindItemsPage = () => {
                             borderRadius: 2,
                               p:2,}}
                                 >
+          <Box>SKU: {store.itemSKU}</Box>
           <Box>Item: {store.itemName}</Box>
           <Box> Item Description {store.itemDescription}</Box>
           <Box> Store Name: {store.storeName}</Box>
           <Box> Store ID: {store.storeID}</Box>
           <Box> Distance: {store.distance}</Box>
           <Box> Quantity: {store.itemQty}</Box>
-          <Button variant='contained' color='success' onClick={handleBuy(store.itemName)}> Generate Report </Button>
+          <Button variant='contained' color='success' onClick={ () => handleBuy(store.itemSKU,store.storeID, store.itemQty)}> Buy Item </Button>
         </Box>
       })}
       </Box>  

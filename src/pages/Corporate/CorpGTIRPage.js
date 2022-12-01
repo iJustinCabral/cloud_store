@@ -55,38 +55,38 @@ const CorpGTIRPage = () => {
     { 
       text: 'Create Item',
       icon:  <AddCircleIcon />,
-      onClick: () => navigate('/corporate/create_item')
+      onClick: () => { value = 0; navigate('/corporate/create_item') }
     }, 
     {
       text: 'List Stores',
       icon: <ListAltIcon />,
-      onClick: () => navigate('/corporate/list_stores')
+      onClick: () => { value = 0; navigate('/corporate/list_stores') }
 
     },
     {
       text: 'Assign Item Location',
       icon: <AddLocationAltIcon />,
-      onClick: () => navigate('/corporate/assign_item_location')
+      onClick: () => { value = 0; navigate('/corporate/assign_item_location') }
     }, 
     {
       text: 'Create Store',
       icon: <AddBusinessIcon />,
-      onClick: () => navigate('/corporate/create_store')
+      onClick: () => {value = 0; navigate('/corporate/create_store') }
     },
     {
       text: 'Remove Store',
       icon: <DeleteForeverIcon />,
-      onClick: () => navigate('/corporate/remove_store')
+      onClick: () => {value = 0; navigate('/corporate/remove_store')}
     },
     {
       text: 'Generate Total Invetory Report',
       icon: <SummarizeIcon />,
-      onClick: () => navigate('/corporate/gtir')
+      onClick: () => {value = 0; navigate('/corporate/gtir')}
     },
     {
       text: 'Generate Inventory Report',
       icon: <AssessmentIcon />,
-      onClick: () => navigate('/corporate/gir')
+      onClick: () => {value = 0; navigate('/corporate/gir')}
     }
   ]
 
