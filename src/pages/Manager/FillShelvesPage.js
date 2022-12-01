@@ -18,10 +18,33 @@ import TableRowsIcon from '@mui/icons-material/TableRows';
 import LogoutIcon from '@mui/icons-material/Logout';
 import RuleIcon from '@mui/icons-material/Rule';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Button, TextField } from '@mui/material';
 
 const drawerWidth = 240;
 
 const FillShelvesPage = () => {
+
+  const handleClick = (e) => {
+    console.log("----MANGER ID -----")
+    var blah = JSON.stringify(localStorage.getItem('managerID'))
+
+    fetch("", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        managerID: localStorage.getItem('managerID')
+      })
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response)
+      
+    })
+  }
   const navigate = useNavigate()
   const itemsList = [
     { 
@@ -111,6 +134,9 @@ const FillShelvesPage = () => {
         <Toolbar />
         <Typography paragraph>
         <h1> Fill Shelves</h1>
+        <div>
+        <Button variant='contained' color='success' onClick={handleClick}>Fill Shelves</Button>
+        </div>
         </Typography>
       </Box>
       
