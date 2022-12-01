@@ -32,6 +32,7 @@ const CorpGIRPage = () => {
   const [formValues, setFormValues] = useState({
     storeID: ""
   })
+  const [totalValue, setTotalValue] = useState(0)
 
   const handleChange = (e) => {
     setFormValues((prevState) => ({
@@ -53,9 +54,14 @@ const CorpGIRPage = () => {
     .then(response => response.json())
     .then(response => {
       console.log(response);
+      let totalPrice = 0
       for (let item in response.inventory){
         setItemArray(itemArray => (itemArray.concat(response.inventory[item])))
+        console.log(response.inventory[item].totalValue)
+        totalPrice += response.inventory[item].totalValue
       }
+      //console.log(totalPrice)
+      setTotalValue(totalPrice)
       console.log(itemArray)
     })
   }
@@ -180,6 +186,7 @@ const CorpGIRPage = () => {
               })}
           </List>
           </Box>
+        <h1>Total Price: {totalValue}</h1>
       </Box>
       
     </Box>
