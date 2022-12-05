@@ -156,16 +156,22 @@ const ProcessShipmentPage = (props) => {
           <div>
             <Button variant='contained' color='success' onClick={handleClick}> Process Shipment </Button>
           </div>
-          <h2>Example 1:  [
-    {`{"sku": "DRJ297831", "quantity": "20"},`}
-    {`{"sku": "JK199283", "quantity": "3"}`}
-  ]
-</h2>
-<h2>
-  Example 2: [
-    {`{"sku": "JK199283", "quantity": "5"}`}
-  ]
-</h2>
+          <h2 style={{ color: 'red' } }> We Expect the Following format</h2>
+          <h2 style={{ color: 'red' } }>Example 1:  [
+              {`{"sku": "DRJ297831", "qty": "20"},`}
+              {`{"sku": "JK199283", "qty": "3"}`}
+                                                      ]
+          </h2>
+            <h2 style={{ color: 'red' } }>
+              Example 2: [
+                {`{"sku": "JK199283", "qty": "5"}`}
+              ]
+            </h2>
+            <h2 style={{ color: 'red' } }>
+              Example 3: [
+                {`{"sku": "222", "qty": "5"}`}
+              ]
+            </h2>
         </div>
         </Typography>
       </Box>
