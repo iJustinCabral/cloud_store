@@ -116,6 +116,8 @@ const FindItemsPage = () => {
 
   const handleClick = (e) => {
 
+    setStoreArray([])
+
     fetch("https://pnz1e4zfi6.execute-api.us-east-1.amazonaws.com/default/customer_find_item_in_store", {
       method: 'POST',
       headers: {

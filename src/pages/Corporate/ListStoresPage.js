@@ -31,6 +31,9 @@ const ListStoresPage = () => {
 
 
   const handleClick = (e) => {
+
+    setStoreArray([])
+
     fetch("https://j2l5dyqb1h.execute-api.us-east-1.amazonaws.com/default/corporate_list_stores", {
       method: 'POST',
       headers: {
