@@ -39,6 +39,7 @@ const CustListStoresPage = () => {
 
   const handleClick = (e) => {
     console.log(formValues)
+    setStoreArray([])
 
     fetch("https://c9atyzlbgl.execute-api.us-east-1.amazonaws.com/default/customer_list_stores", {
       method: 'POST',
