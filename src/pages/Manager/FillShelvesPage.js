@@ -19,17 +19,18 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import RuleIcon from '@mui/icons-material/Rule';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Button, TextField } from '@mui/material';
+import { Button } from '@mui/material';
 
 const drawerWidth = 240;
 
 const FillShelvesPage = () => {
 
+  const[isFillShelvesSuccessful, setIsFillShelvesSuccessful] = useState(0);
+
   const handleClick = (e) => {
     console.log("----MANGER ID -----")
-    var blah = JSON.stringify(localStorage.getItem('managerID'))
 
-    fetch("", {
+    fetch(" https://v1y6dwzcsj.execute-api.us-east-1.amazonaws.com/default/Iteration_3_Manager_Fill_Shelves", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -41,8 +42,14 @@ const FillShelvesPage = () => {
     })
     .then(response => response.json())
     .then(response => {
+      console.log("Fill Shelves Successful")
       console.log(response)
+      setIsFillShelvesSuccessful(1)
       
+    })
+    .catch(error => {
+      console.log(error)
+      setIsFillShelvesSuccessful(-1)
     })
   }
   const navigate = useNavigate()
@@ -137,6 +144,8 @@ const FillShelvesPage = () => {
         <div>
         <Button variant='contained' color='success' onClick={handleClick}>Fill Shelves</Button>
         </div>
+        <h2 style={{ color: 'Green' } }> {isFillShelvesSuccessful > 0 ? "Shelves Filled Successfully" : ""}</h2>
+        <h2 style={{ color: 'Green' } }> {isFillShelvesSuccessful < 0 ? "Something went wrong. Please try again" : ""}</h2>
         </Typography>
       </Box>
       
