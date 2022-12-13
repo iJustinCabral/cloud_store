@@ -30,6 +30,7 @@ let value = 0.0;
 const CorpGTIRPage = () => {
 
   const[itemArray,setItemArray]=useState([]);
+  const [totalValue, setTotalValue] = useState(0);
 
   const handleClick = (e) => {
     fetch("https://st0t54rdql.execute-api.us-east-1.amazonaws.com/default/Iteration_3_Corporate_Generate_Total_Stores_Inventory_Report", {
@@ -42,10 +43,16 @@ const CorpGTIRPage = () => {
     })
     .then(response => response.json())
     .then(response => {
+      //make itemarray empty
+      setItemArray([]);
       console.log(response);
+      value = 0.0;
       for (let item in response.storesInventory){
         setItemArray(itemArray => (itemArray.concat(response.storesInventory[item])))
+        value += response.storesInventory[item].totalValue;
       }
+      value = value.toFixed(2);
+      setTotalValue(value);
       console.log(itemArray)
     })
   }
@@ -171,7 +178,7 @@ const CorpGTIRPage = () => {
           </List>
           </Box>
 
-          <h1>Total Inventory Value: ${value}</h1>
+          <h1>Total Inventory Value: ${totalValue}</h1>
       </Box>
     </Box>
   );
