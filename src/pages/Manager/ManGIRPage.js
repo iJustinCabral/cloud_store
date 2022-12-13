@@ -18,7 +18,7 @@ import TableRowsIcon from '@mui/icons-material/TableRows';
 import LogoutIcon from '@mui/icons-material/Logout';
 import RuleIcon from '@mui/icons-material/Rule';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField } from '@mui/material';
+import { Button } from '@mui/material';
 import { useState } from 'react';
 
 const drawerWidth = 240;
@@ -30,7 +30,7 @@ const ManGIRPage = (props) => {
 
   const handleClick = (e) => {
     console.log("----MANGER ID -----")
-    var blah = JSON.stringify(localStorage.getItem('managerID'))
+    //var blah = JSON.stringify(localStorage.getItem('managerID'))
     fetch("https://yh6sflrwml.execute-api.us-east-1.amazonaws.com/default/generate_inventory_report_lambda", {
       method: 'POST',
       headers: {
@@ -43,11 +43,17 @@ const ManGIRPage = (props) => {
     })
     .then(response => response.json())
     .then(response => {
+      setItemArray([])
+      let sum = 0;
       console.log(response);
       for (let item in response.inventory){
         setItemArray(itemArray => (itemArray.concat(response.inventory[item])))
+        sum += response.inventory[item].totalValue
       }
       console.log(itemArray)
+      //Make sum only show first 2 decimal places
+      sum = sum.toFixed(2)
+      setTotalValue(sum)
     })
   }
 
@@ -146,17 +152,21 @@ const ManGIRPage = (props) => {
           backgroundColor: '#F8F8F8'
         }}>
           <List>
-            <Box
-                sx={{
+          <Box sx={{backgroundColor: "F8F8F8"}}>
+          {itemArray.map((item) => {  
+            return<Box sx={{
                   bgcolor: '#fff',
                   boxShadow: 1,
                   borderRadius: 2,
                   p: 2,
                 }}
-              >
-              {itemArray.map((item) => {  
-                return <div>{item.itemName} {item.price} {item.qty} {item.totalValue}</div>
-              })}
+              > 
+                 <Box>Name: {item.itemName} </Box> 
+                 <Box>Price: {item.price}</Box>
+                 <Box>QTY: {item.qty} </Box> 
+                 <Box>TotalValue: {item.totalValue}</Box>
+            </Box>
+            })}
             </Box>
           </List>
           

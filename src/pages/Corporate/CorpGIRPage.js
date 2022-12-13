@@ -53,6 +53,8 @@ const CorpGIRPage = () => {
     })
     .then(response => response.json())
     .then(response => {
+      //set itemArray to empty array
+      setItemArray([])
       console.log(response);
       let totalPrice = 0
       for (let item in response.inventory){
@@ -61,6 +63,7 @@ const CorpGIRPage = () => {
         totalPrice += response.inventory[item].totalValue
       }
       //console.log(totalPrice)
+      totalPrice = totalPrice.toFixed(2)
       setTotalValue(totalPrice)
       console.log(itemArray)
     })
